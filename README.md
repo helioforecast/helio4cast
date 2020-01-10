@@ -37,33 +37,9 @@ tweepy==3.8.0
 dropbox==9.4.0
 
 
-
-
-
-
----------
-
->> conda env create --prefix ./envtest -f environment.yml 
-
-
-
->> conda env create --prefix ./envreal -f environment.yml 
-
-logout, check which python, which pip
-
->> conda activate /path_to_env/envtest
-
->> conda install  pip
-
->> pip install -r requirements.txt
-
->> conda install -c conda-forge cartopy
-
-
-cd envtest
->> git clone https://github.com/helioforecast/predstorm
->> git clone https://github.com/helioforecast/auroramaps
->> git clone https://github.com/helioforecast/helio4castset 
+> git clone https://github.com/helioforecast/predstorm
+> git clone https://github.com/helioforecast/auroramaps
+> git clone https://github.com/helioforecast/helio4castset 
 
 to update
 conda env update --prefix ./realtest --file environment.yml 
@@ -81,38 +57,3 @@ pip install***? -r requirements.txt
 
 
 
-
-
-
-
-
-
-
-
-
-
-helio4cast runs in a conda environment 
-
-tested on linux 
-
-install python anaconda or miniconda
-
-use files environment .yml and requirements.txt in this repo, put in the directory below the conda environment; the conda environment is called realtest and is created in a folder in the current directory
-
-
-
-then install all repositories:
-
-
-
-go to predstorm and auroramaps and do
-pip install . 
-in each.
-
-see also
-https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#create-env-file-manually
-
-
-to update
-conda env update --prefix ./realtest --file environment.yml 
-pip install -r requirements.txt
