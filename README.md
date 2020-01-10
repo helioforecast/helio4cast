@@ -4,10 +4,15 @@ Codes for distributing and managing helio4cast results
 for auroramaps and predstorm
 
 Python 3.7.6 miniconda
+
 conda env create  -f environment.yml
+
 conda activate envtest3
+
 conda install -c conda-forge cartopy  **(add 0.17.0)
+
 conda install scikit-image  (add version)
+
 pip install -r requirements.txt
 
 
