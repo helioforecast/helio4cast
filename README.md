@@ -11,15 +11,13 @@ conda activate envtest3
 
 conda install -c conda-forge cartopy  **(add 0.17.0)
 
-conda install scikit-image  (add version)
-
 pip install -r requirements.txt
 
 
 
 (maybe try pip install sunpy? problems when both in conda or not?)=
 
-
+environment.yml
 name: envtest3
 dependencies:
   - astropy==4.0
@@ -34,7 +32,7 @@ dependencies:
   - seaborn==0.9.0
 
 
-
+requirements.txt
 aacgmv2==2.6.0
 heliosat==0.3.1
 pysftp==0.2.9
