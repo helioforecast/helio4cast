@@ -1,0 +1,13 @@
+name: envtest3
+dependencies:
+  - astropy==4.0
+  - matplotlib==3.1.1
+  - numba==0.45.1
+  - numpy==1.17.2
+  - ipython==7.11.1
+  - pip==19.3.1
+  - scikit-learn==0.20.3
+  - scikit-image==0.15.0
+  - scipy==1.3.1
+  - seaborn==0.9.0
+
