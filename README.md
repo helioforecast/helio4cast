@@ -6,7 +6,7 @@ for auroramaps, predstorm and helio4cast packages
 
 1. install python 3.7.6 with miniconda
 
-2. conda env create  f environment.yml
+2. conda env create  -f environment.yml
 
 3. conda activate testenv
 
@@ -22,7 +22,9 @@ for auroramaps, predstorm and helio4cast packages
 
 
 environment.yml
+
 name: testenv
+
 dependencies:
   - astropy==4.0
   - matplotlib==3.1.1
@@ -36,6 +38,7 @@ dependencies:
   - seaborn==0.9.0
 
 requirements.txt
+
 aacgmv2==2.6.0
 heliosat==0.3.1
 pysftp==0.2.9
