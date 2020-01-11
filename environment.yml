@@ -1,4 +1,4 @@
-name: envtest3
+name: testenv
 dependencies:
   - astropy==4.0
   - matplotlib==3.1.1

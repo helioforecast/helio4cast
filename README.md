@@ -1,24 +1,28 @@
 # helio4cast
 Codes for distributing and managing helio4cast results
 
-for auroramaps and predstorm
-
-Python 3.7.6 miniconda
-
-conda env create  -f environment.yml
-
-conda activate envtest3
-
-conda install -c conda-forge cartopy  **(add 0.17.0)
-
-pip install -r requirements.txt
+for auroramaps, predstorm and helio4cast packages
 
 
+1. install python 3.7.6 with miniconda
 
-(maybe try pip install sunpy? problems when both in conda or not?)=
+2. conda env create  f environment.yml
+
+3. conda activate testenv
+
+4. conda install -c conda-forge cartopy==0.17.0
+
+5. pip install -r requirements.txt
+
+6. git clone https://github.com/helioforecast/predstorm
+
+7. git clone https://github.com/helioforecast/auroramaps
+
+8. git clone https://github.com/helioforecast/helio4cast
+
 
 environment.yml
-name: envtest3
+name: testenv
 dependencies:
   - astropy==4.0
   - matplotlib==3.1.1
@@ -31,7 +35,6 @@ dependencies:
   - scipy==1.3.1
   - seaborn==0.9.0
 
-
 requirements.txt
 aacgmv2==2.6.0
 heliosat==0.3.1
@@ -40,13 +43,18 @@ tweepy==3.8.0
 dropbox==9.4.0
 
 
-> git clone https://github.com/helioforecast/predstorm
-> git clone https://github.com/helioforecast/auroramaps
-> git clone https://github.com/helioforecast/helio4castset 
 
-to update
-conda env update --prefix ./realtest --file environment.yml 
-pip install***? -r requirements.txt
+To update:
+
+change  environment.yml and requirements.txt files
+
+1. conda activate testenv
+
+2. conda env update testenv --file environment.yml 
+
+3. pip install -r requirements.txt
+
+
 
 
 
