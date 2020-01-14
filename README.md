@@ -1,28 +1,49 @@
 # helio4cast
-Codes for distributing and managing helio4cast results
+Codes for distributing and managing helio4cast results.
 
-for auroramaps, predstorm and helio4cast packages
+For the auroramaps, predstorm and helio4cast packages.
 
 
-- install python 3.7.6 with miniconda
+Installation instructions:
 
-- conda env create  -f environment.yml
+Install python 3.7.6 with miniconda:
 
-- conda activate testenv
+on Linux:
 
-- conda config --add channels conda-forge
+	  wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+	  bash Miniconda3-latest-Linux-x86.sh
 
-- conda install cartopy==0.17.0
+on MacOS:
 
-- conda install matplotlib=3.1.2
+	  curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+	  bash Miniconda3-latest-MacOSX-x86_64.sh
 
-- pip install -r requirements.txt
 
-- git clone https://github.com/helioforecast/predstorm
+Create conda environment:
 
-- git clone https://github.com/helioforecast/auroramaps
+	  conda env create -f environment.yml
 
-- git clone https://github.com/helioforecast/helio4cast
+	  conda activate testenv
+
+	  conda install cartopy==0.17.0
+
+	  pip install -r requirements.txt
+	  
+go to a directory of your choice
+
+	  git clone https://github.com/helioforecast/predstorm
+
+	  git clone https://github.com/helioforecast/auroramaps
+
+	  git clone https://github.com/helioforecast/helio4cast
+
+
+run
+	  python predstorm_l5.py --server
+	  python aurora.py --server --real
+
+in the respective directories.
+
 
 
 environment.yml
