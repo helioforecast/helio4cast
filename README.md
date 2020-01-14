@@ -39,7 +39,9 @@ go to a directory of your choice
 
 
 run
+
 	  python predstorm_l5.py --server
+	  
 	  python aurora.py --server --real
 
 in the respective directories.
