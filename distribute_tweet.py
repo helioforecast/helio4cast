@@ -33,9 +33,9 @@ api.update_with_media(path+'predstorm/predstorm_real.png', status="Current PREDS
 
 print('make gifs smaller')
 output_directory='aurora_realtime'
-os.system(ffmpeg_path+' -i '+ path+'auroramaps/results/'+output_directory+'/prob_global.mp4  -b:v 5000k -vf scale=500:-1 '+path+'auroramaps/results/'+output_directory+'/prob_global_very_small.gif  -y -loglevel quiet ')
-os.system(ffmpeg_path+' -i '+ path+'auroramaps/results/'+output_directory+'/prob_europe.mp4  -b:v 5000k -vf scale=500:-1 '+path+'auroramaps/results/'+output_directory+'/prob_europe_very_small.gif  -y -loglevel quiet ')
-os.system(ffmpeg_path+' -i '+ path+'auroramaps/results/'+output_directory+'/prob_canada.mp4  -b:v 5000k -vf scale=500:-1 '+path+'auroramaps/results/'+output_directory+'/prob_canada_very_small.gif  -y -loglevel quiet')
+os.system(ffmpeg_path+' -i '+ path+'auroramaps/results/'+output_directory+'/prob_global.mp4  -b:v 5000k -vf scale=700:-1 '+path+'auroramaps/results/'+output_directory+'/prob_global_very_small.gif  -y -loglevel quiet ')
+os.system(ffmpeg_path+' -i '+ path+'auroramaps/results/'+output_directory+'/prob_europe.mp4  -b:v 5000k -vf scale=700:-1 '+path+'auroramaps/results/'+output_directory+'/prob_europe_very_small.gif  -y -loglevel quiet ')
+os.system(ffmpeg_path+' -i '+ path+'auroramaps/results/'+output_directory+'/prob_canada.mp4  -b:v 5000k -vf scale=700:-1 '+path+'auroramaps/results/'+output_directory+'/prob_canada_very_small.gif  -y -loglevel quiet')
 
 
 #Für gifs in guter Auflösung (zB wenn man ein .mpeg in ein .gif konvertieren möchte:

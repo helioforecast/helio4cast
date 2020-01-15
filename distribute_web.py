@@ -8,18 +8,17 @@ import os
 import pysftp
 from web_data import *
 
-
 #(1) ############### copy to helioforecast.space server
 
 
-print('------------------ helioforecast.space')
+print('(1) copy files to helioforecast.space')
 print()
 
 
 sftp=pysftp.Connection(server, username=user, private_key=key,port=port)
 
 
-sftp.chdir('helioforecast/static/realtime_plots')  #change dir
+sftp.chdir('www-helioforecast/helioforecast/public/sync')  #change dir
 print(sftp.pwd)
 
 print('copy predstorm_real.png/txt to ',sftp.pwd) #show current dir
@@ -57,7 +56,7 @@ from dropbox.files import WriteMode
 
 if drop > 0:
 
-    print('------------------ chris dropbox')
+    print('(2) copy files to chris dropbox')
     print()
 
 
