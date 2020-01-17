@@ -4,7 +4,7 @@ Codes for distributing and managing helio4cast results.
 For the auroramaps, predstorm and helio4cast packages.
 
 
-## Installation instructions:
+## Installation instructions
 
 Install python 3.7.6 with miniconda:
 
@@ -48,14 +48,12 @@ in the respective directories.
 
 These programs are internally used to distribute the real time results:
 
-   distribute_web.py
-   distribute_tweet.py
+*distribute_web.py, distribute_tweet.py*
+
+The file *cronjobs.txt* contains the cron syntax to run the programs.
 
 
-
-
-
-## Dependencies summary:
+## Dependencies summary
 
 
 environment.yml file:
@@ -89,15 +87,15 @@ requirements.txt file:
 
 
 
-## To update:
+## To update
 
-change  environment.yml and requirements.txt files
+change  environment.yml and requirements.txt files,
 
-1. conda activate testenv
+    conda activate testenv
 
-2. conda env update testenv --file environment.yml 
+    conda env update testenv --file environment.yml 
 
-3. pip install -r requirements.txt
+    pip install -r requirements.txt
 
 
 
