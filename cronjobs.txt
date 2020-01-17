@@ -15,12 +15,8 @@ tweet: once per day at 1620
 
 
 
-backup server: (30 minutes difference)
+backup server: (30 minutes difference, no tweet)
 
-30 * * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/predstorm_real.sh --server > /nas/helio/realcode/real/helio4cast/cronlog_predstorm.txt
-3 * * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/distribute_real_web.sh > /nas/helio/helio4cast/cronlog_web.txt
-5 */4 * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/auroramaps_real.sh --server --real > /nas/helio/realcode/real/helio4cast/cronlog_auroramaps.txt
-18 */4 * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/distribute_real_web.sh > /nas/helio/helio4cast/cronlog_web.txt
 
 30 * * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/predstorm_real.sh --server > /nas/helio/realcode/real/helio4cast/cronlog_predstorm.txt
 33 * * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/distribute_real_web.sh > /nas/helio/helio4cast/cronlog_web.txt
