@@ -46,15 +46,25 @@ run
 
 in the respective directories.
 
+These programs are internally used to distribute the real time results:
+
+   distribute_web.py
+   distribute_tweet.py
 
 
-environment.yml
+
+Dependencies summary:
+
+
+environment.yml file:
 
 name: testenv
 
 dependencies:
+
+  - python==3.7.6
   - astropy==4.0
-  - matplotlib==3.1.1
+  - matplotlib==3.1.2
   - numba==0.45.1
   - numpy==1.17.2
   - ipython==7.11.1
@@ -64,13 +74,16 @@ dependencies:
   - scipy==1.3.1
   - seaborn==0.9.0
 
-requirements.txt
 
-aacgmv2==2.6.0
-heliosat==0.3.1
-pysftp==0.2.9
-tweepy==3.8.0
-dropbox==9.4.0
+requirements.txt file:
+
+  - pillow==6.2.1
+  - aacgmv2==2.6.0
+  - heliosat==0.3.1
+  - pysftp==0.2.8
+  - tweepy==3.8.0
+  - dropbox==9.4.0
+
 
 
 
