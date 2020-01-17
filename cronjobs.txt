@@ -1,0 +1,15 @@
+0 * * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/predstorm_real.sh --server > /nas/helio/realcode/real/helio4cast/cronlog_predstorm.txt
+3 * * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/distribute_real_web.sh > /nas/helio/helio4cast/cronlog_web.txt
+3 */4 * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/auroramaps_real.sh --server --real > /nas/helio/realcode/real/helio4cast/cronlog_auroramaps.txt
+15 */4 * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/distribute_real_web.sh > /nas/helio/helio4cast/cronlog_web.txt
+20 16 * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/distribute_real_tweet.sh > /nas/helio/helio4cast/cronlog_tweet.txt
+
+
+predstorm: every hour 1200,1300,...
+dist to web: every hour + 3 minutes 1203, 1303, ...
+
+auroramaps: every 4 hours +3 minutes: 0003, 0403, 0803, 1203, 1603, 2003
+dist to web, assume auroramaps is done after 15 minutes: every 4 hours + 18 minutes 1218, 1318, ...
+
+tweet: once per day at 1620
+
