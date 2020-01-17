@@ -4,7 +4,7 @@ Codes for distributing and managing helio4cast results.
 For the auroramaps, predstorm and helio4cast packages.
 
 
-Installation instructions:
+## Installation instructions:
 
 Install python 3.7.6 with miniconda:
 
@@ -53,7 +53,9 @@ These programs are internally used to distribute the real time results:
 
 
 
-Dependencies summary:
+
+
+## Dependencies summary:
 
 
 environment.yml file:
@@ -87,7 +89,7 @@ requirements.txt file:
 
 
 
-To update:
+## To update:
 
 change  environment.yml and requirements.txt files
 
