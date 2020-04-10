@@ -1,9 +1,10 @@
-0 * * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/predstorm_real.sh --server > /nas/helio/realcode/real/helio4cast/cronlog_predstorm.txt
-3 * * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/distribute_real_web.sh > /nas/helio/helio4cast/cronlog_web.txt
-5 */4 * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/auroramaps_real.sh --server --real > /nas/helio/realcode/real/helio4cast/cronlog_auroramaps.txt
-18 */4 * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/distribute_real_web.sh > /nas/helio/helio4cast/cronlog_web.txt
-20 16 * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/distribute_real_tweet.sh > /nas/helio/helio4cast/cronlog_tweet.txt
+leo11
 
+0 * * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/predstorm_real.sh --server > /nas/helio/realcode/real/helio4cast/cronlog_predstorm.txt
+3 * * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/distribute_real_web.sh > /nas/helio/realcode/real/helio4cast/cronlog_web.txt
+5 */4 * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/auroramaps_real.sh --server --real > /nas/helio/realcode/real/helio4cast/cronlog_auroramaps.txt
+15 */4 * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/distribute_real_web.sh > /nas/helio/helio4cast/cronlog_web.txt
+20 16 * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/distribute_real_tweet.sh > /nas/helio/realcode/real/helio4cast/cronlog_tweet.txt
 
 predstorm: every hour 1200,1300,...
 dist to web: every hour + 3 minutes 1203, 1303, ...
@@ -15,10 +16,18 @@ tweet: once per day at 1620
 
 
 
+leo12
+
 backup server: (30 minutes difference, no tweet)
 
 
 30 * * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/predstorm_real.sh --server > /nas/helio/realcode/real/helio4cast/cronlog_predstorm.txt
-33 * * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/distribute_real_web.sh > /nas/helio/helio4cast/cronlog_web.txt
+33 * * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/distribute_real_web.sh > /nas/helio/realcode/real/helio4cast/cronlog_web.txt
 35 */4 * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/auroramaps_real.sh --server --real > /nas/helio/realcode/real/helio4cast/cronlog_auroramaps.txt
 48 */4 * * * /usr/bin/sh /nas/helio/realcode/real/helio4cast/distribute_real_web.sh > /nas/helio/helio4cast/cronlog_web.txt
+0 6 * * * /usr/bin/sh /nas/helio/realcode/real/heliocats/data_update.sh > /nas/helio/realcode/real/heliocats/cronlog_data_update.txt
+
+leo1
+
+0 18 * * * /usr/bin/sh /nas/helio/realcode/real/heliocats/data_update.sh > /nas/helio/realcode/real/heliocats/cronlog_data_update.txt
+*  * * * * /usr/bin/sh /home/cmoestl/hi_cme_update.sh > /home/cmoestl/hi_cme_update_cronlog.txt
