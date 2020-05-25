@@ -5,3 +5,5 @@ pysftp==0.2.8
 tweepy==3.8.0
 dropbox==9.4.0
 pysftp==0.2.8
+aacgmv2==2.6.0
+
