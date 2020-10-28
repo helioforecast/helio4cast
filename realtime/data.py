@@ -43,11 +43,12 @@ def download_noaa_rtsw_data(save_path):
 
     plasma = 'http://services.swpc.noaa.gov/products/solar-wind/plasma-7-day.json'
     mag = 'http://services.swpc.noaa.gov/products/solar-wind/mag-7-day.json'
+    dst = 'http://services.swpc.noaa.gov/products/kyoto-dst.json'
 
     datestr=str(datetime.utcnow().strftime("%Y-%m-%dT%Hh"))
     logging.info('downloading NOAA real time solar wind plasma and mag for {}'.format(datestr))
 
-    get_plas, get_mag = True, True
+    get_plas, get_mag, get_dst = True, True, False
 
     try:
         urllib.request.urlretrieve(plasma, os.path.join(save_path, 'plasma-7-day_'+datestr+'.json'))
@@ -61,10 +62,16 @@ def download_noaa_rtsw_data(save_path):
         logging.error(' '+mag+' '+e.reason)
         get_mag = False
 
+    try:
+        urllib.request.urlretrieve(dst, os.path.join(save_path, 'dst-7-day_'+datestr+'.json'))
+    except urllib.error.URLError as e:
+        logging.error(' '+dst+' '+e.reason)
+        get_dst = False
+
     return get_plas, get_mag
 
 
-def archive_noaa_rtsw_data(json_path, archive_path):
+def archive_noaa_rtsw_data(json_path, archive_path, limit_by_ndays=100):
     """Archives the NOAA real-time solar wind data files in hdf5 format.
 
     Parameters
@@ -86,17 +93,21 @@ def archive_noaa_rtsw_data(json_path, archive_path):
     logging.info('Archive NOAA real time solar wind data as h5 file')
 
     items = os.listdir(json_path)
-    pla_list, mag_list = [], []
+    pla_list, mag_list, dst_list = [], [], []
     for name in items:
        if name.startswith("mag") and name.endswith(".json"):
             mag_list.append(name)
        if name.startswith("pla") and name.endswith(".json"):
             pla_list.append(name)
+       if name.startswith("dst") and name.endswith(".json"):
+            dst_list.append(name)
 
     pla_keys = ['time_tag', 'density', 'speed', 'temperature']
     mag_keys = ['time_tag', 'bx_gsm', 'by_gsm', 'bz_gsm', 'bt']
+    dst_keys = ['time_tag', 'dst']
     rtsw_pla = np.zeros((5000000, len(pla_keys)))
     rtsw_mag = np.zeros((5000000, len(mag_keys)))
+    rtsw_dst = np.zeros((5000000, len(dst_keys)))
 
     # READ FILES
     # ----------
@@ -131,22 +142,42 @@ def archive_noaa_rtsw_data(json_path, archive_path):
     dum, ind = np.unique(rtsw_mag_cut[:,0], return_index=True)
     rtsw_mag_fin = rtsw_mag_cut[ind] # remove multiples of timesteps
 
-    # Interpolate onto minute and hour timesteps (since both files are mismatched/missing timesteps):
-    first_timestamp = num2date(np.max((rtsw_pla_fin[0,0], rtsw_mag_fin[0,0])))
-    first_timestamp = first_timestamp - timedelta(seconds=first_timestamp.second)
-    last_timestamp = num2date(np.min((rtsw_pla_fin[-1,0], rtsw_mag_fin[-1,0])))
-    last_timestamp = last_timestamp - timedelta(seconds=last_timestamp.second)
-    n_min = int((last_timestamp-first_timestamp).total_seconds() / 60)
-    n_hour = int(np.round(n_min / 60, 0))
+    # Go through Dst files:
+    kd = 0
+    for json_file in dst_list:
+        try:
+            dst_data = read_noaa_rtsw_json(os.path.join(json_path, json_file),
+                                           timef="%Y-%m-%d %H:%M:%S")
+            for ip, pkey in enumerate(dst_keys):
+                rtsw_dst[kd:kd+np.size(dst_data),ip] = dst_data[pkey]
+            kd = kd + np.size(dst_data)
+        except:
+            logging.error("JSON load failed for file {}".format(json_file))
+    rtsw_dst_cut = rtsw_dst[0:kd]
+    rtsw_dst_cut = rtsw_dst_cut[rtsw_dst_cut[:,0].argsort()] # sort by time
+    dum, ind = np.unique(rtsw_dst_cut[:,0], return_index=True)
+    rtsw_dst_fin = rtsw_dst_cut[ind] # remove multiples of timesteps
 
-    min_steps = np.array([date2num(first_timestamp+timedelta(minutes=n)) for n in range(n_min)])
-    hour_steps = np.array([date2num(first_timestamp+timedelta(hours=n)) for n in range(n_hour)])
+    # Interpolate onto minute and hour timesteps (since both files are mismatched/missing timesteps):
+    first_timestamp_min = num2date(np.max((rtsw_pla_fin[0,0], rtsw_mag_fin[0,0])))
+    first_timestamp_min = first_timestamp_min - timedelta(seconds=first_timestamp_min.second)
+    first_timestamp_hour = num2date(np.max((rtsw_pla_fin[0,0], rtsw_mag_fin[0,0], rtsw_dst_fin[0,0])))
+    first_timestamp_hour = first_timestamp_hour - timedelta(seconds=first_timestamp_hour.second)
+    last_timestamp_min = num2date(np.min((rtsw_pla_fin[-1,0], rtsw_mag_fin[-1,0])))
+    last_timestamp_min = last_timestamp_min - timedelta(seconds=last_timestamp_min.second)
+    last_timestamp_hour = num2date(np.min((rtsw_pla_fin[-1,0], rtsw_mag_fin[-1,0], rtsw_dst_fin[-1,0])))
+    last_timestamp_hour = last_timestamp_hour - timedelta(seconds=last_timestamp_hour.second)
+    n_min = int((last_timestamp_min-first_timestamp_min).total_seconds() / 60)
+    n_hour = int(np.round(int((last_timestamp_hour-first_timestamp_hour).total_seconds() / 60) / 60, 0))
+
+    min_steps = np.array([date2num(first_timestamp_min+timedelta(minutes=n)) for n in range(n_min)])
+    hour_steps = np.array([date2num(first_timestamp_hour+timedelta(hours=n)) for n in range(n_hour)])
 
     # DEFINE HEADER
     # -------------
     metadata = {
         "Description": "Real time solar wind magnetic field and plasma data from NOAA",
-        "TimeRange": "{} - {}".format(first_timestamp.strftime("%Y-%m-%dT%H:%M"), last_timestamp.strftime("%Y-%m-%d %H:%M")),
+        "TimeRange": "{} - {}".format(first_timestamp_min.strftime("%Y-%m-%dT%H:%M"), last_timestamp_min.strftime("%Y-%m-%d %H:%M")),
         "SourceURL": "https://services.swpc.noaa.gov/products/solar-wind/",
         "CompiledBy": "Helio4Cast code, https://github.com/helioforecast/helio4cast",
         "Authors": "C. Moestl (twitter @chrisoutofspace) and R. L. Bailey (GitHub bairaelyn)",
@@ -157,7 +188,7 @@ def archive_noaa_rtsw_data(json_path, archive_path):
 
     # WRITE DATA: LAST 100 DAYS
     # -------------------------
-    past_100days = datetime.utcnow() - timedelta(days=100)
+    past_100days = datetime.utcnow() - timedelta(days=limit_by_ndays)
 
     if not os.path.exists(archive_path):
         os.mkdir(archive_path)
@@ -181,6 +212,7 @@ def archive_noaa_rtsw_data(json_path, archive_path):
     hf.close()
 
     # Write to file (hour timesteps):
+    metadata["TimeRange"] = "{} - {}".format(first_timestamp_hour.strftime("%Y-%m-%dT%H:%M"), last_timestamp_hour.strftime("%Y-%m-%d %H:%M"))
     hdf5_file = os.path.join(archive_path, 'rtsw_hour_last100days.h5')
     hf = h5py.File(hdf5_file, mode='w')
 
@@ -190,6 +222,9 @@ def archive_noaa_rtsw_data(json_path, archive_path):
         hf.create_dataset(key, data=data_interp)
     for key in mag_keys[1:]:
         data_interp = np.interp(hour_steps_100, rtsw_mag_fin[:,0], rtsw_mag_fin[:,mag_keys.index(key)])
+        hf.create_dataset(key, data=data_interp)
+    for key in dst_keys[1:]:
+        data_interp = np.interp(hour_steps_100, rtsw_dst_fin[:,0], rtsw_dst_fin[:,dst_keys.index(key)])
         hf.create_dataset(key, data=data_interp)
     metadata['SamplingRate'] = 1./24.
     for k, v in metadata.items():
@@ -201,7 +236,7 @@ def archive_noaa_rtsw_data(json_path, archive_path):
     return True
 
 
-def read_noaa_rtsw_json(json_file):
+def read_noaa_rtsw_json(json_file, timef="%Y-%m-%d %H:%M:%S.%f"):
     """Reads NOAA real-time solar wind data JSON files (already downloaded).
 
     Parameters
@@ -225,7 +260,7 @@ def read_noaa_rtsw_json(json_file):
         dp = json.loads(jdata.read())
         dpn = [[np.nan if x == None else x for x in d] for d in dp]     # Replace None w NaN
         dtype=[(x, 'float') for x in dp[0]]
-        datesp = [datetime.strptime(x[0], "%Y-%m-%d %H:%M:%S.%f")  for x in dpn[1:]]
+        datesp = [datetime.strptime(x[0], timef)  for x in dpn[1:]]
         #convert datetime to matplotlib times
         mdatesp = date2num(datesp)
         dp_ = [tuple([d]+[float(y) for y in x[1:]]) for d, x in zip(mdatesp, dpn[1:])]
