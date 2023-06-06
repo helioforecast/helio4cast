@@ -23,7 +23,7 @@ import requests
 #    DOWNLOAD
 # -------------------------------------------------------------------
 
-def download_noaa_rtsw_data(save_path):
+def download_noaa_rtsw_data(save_path, datestrf="%Y-%m-%dT%Hh"):
     """Downloads NOAA real-time solar wind data (plasma and mag).
 
     Parameters
@@ -45,7 +45,7 @@ def download_noaa_rtsw_data(save_path):
     mag = 'http://services.swpc.noaa.gov/products/solar-wind/mag-7-day.json'
     dst = 'http://services.swpc.noaa.gov/products/kyoto-dst.json'
 
-    datestr=str(datetime.utcnow().strftime("%Y-%m-%dT%Hh"))
+    datestr = str(datetime.utcnow().strftime(datestrf))
     logging.info('downloading NOAA real time solar wind plasma and mag for {}'.format(datestr))
 
     get_plas, get_mag, get_dst = True, True, False
