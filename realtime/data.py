@@ -105,13 +105,15 @@ def archive_noaa_rtsw_data(json_path, archive_path, limit_by_ndays=100):
     pla_keys = ['time_tag', 'density', 'speed', 'temperature']
     mag_keys = ['time_tag', 'bx_gsm', 'by_gsm', 'bz_gsm', 'bt']
     dst_keys = ['time_tag', 'dst']
-    rtsw_pla = np.zeros((5000000, len(pla_keys)))
-    rtsw_mag = np.zeros((5000000, len(mag_keys)))
-    rtsw_dst = np.zeros((5000000, len(dst_keys)))
+    rtsw_pla = np.zeros((500000000, len(pla_keys)))
+    rtsw_mag = np.zeros((500000000, len(mag_keys)))
+    rtsw_dst = np.zeros((500000000, len(dst_keys)))
 
+ 
     # READ FILES
     # ----------
 
+    
     # Go through plasma files:
     kp = 0
     for json_file in pla_list:
@@ -120,12 +122,15 @@ def archive_noaa_rtsw_data(json_path, archive_path, limit_by_ndays=100):
             for ip, pkey in enumerate(pla_keys):
                 rtsw_pla[kp:kp+np.size(pla_data),ip] = pla_data[pkey]
             kp = kp + np.size(pla_data)
+            #print(json_file)
         except:
-            logging.error("JSON load failed for file {}".format(json_file))
+            logging.error("JSON load failed for file test {}".format(json_file))
     rtsw_pla_cut = rtsw_pla[0:kp]
     rtsw_pla_cut = rtsw_pla_cut[rtsw_pla_cut[:,0].argsort()] # sort by time
     dum, ind = np.unique(rtsw_pla_cut[:,0], return_index=True)
     rtsw_pla_fin = rtsw_pla_cut[ind] # remove multiples of timesteps
+
+  
 
     # Go through magnetic files:
     km = 0
